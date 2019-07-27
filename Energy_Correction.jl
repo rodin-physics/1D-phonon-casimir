@@ -6,7 +6,6 @@ include("Casimir_Effect_Library.jl")
 nPts = 3000;
 θs = range(0, π / 2, length = nPts)
 
-
 # αs: 1 for infinitely heavy impurity, 0 for the same mass as the chain atoms
 αs = [0.25, 0.75, 0.9, 0.99]
 
@@ -27,15 +26,24 @@ plot(
 for ii = 1 : length(αs)
     α = αs[ii];
     res = imag.(Energy_Kernel.(θs, 1, α)) ./ π .* cos.(θs)
-    println(ii)
-    plot!(θs, res, linewidth = 2,  color = colors[ii], lab = latexstring(L"$\alpha = $" * string(α)))
+    plot!(θs, res,
+        linewidth = 2,
+        color = colors[ii],
+        lab = latexstring(L"$\alpha = $" * string(α))
+        )
 end
 
+# Plot the position of the isolated dimer mode as a vertical dashed line
 for ii = 1 : length(αs)
     α = αs[ii];
     xs = sqrt((1 - α) / 2) * 2 / π .* [1, 1]
     ys = [0, 1]
-    plot!(xs, ys, linewidth = 2, color = colors[ii], line = :dash, lab = :false)
+    plot!(xs, ys,
+        linewidth = 2,
+        color = colors[ii],
+        line = :dash,
+        lab = :false
+        )
 end
 
 savefig("Dimer_Mode_D1.pdf")

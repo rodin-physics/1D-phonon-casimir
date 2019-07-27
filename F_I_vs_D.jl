@@ -29,12 +29,31 @@ r_3 =1 ./ (Ds.^3)
 
 for ii = 1 : length(αs)
     α = αs[ii];
+    # F_I for adjacent impurities
     E0 = Energy_Integral(1, α, T)
+    # F_I divided by F_I at D = 1
     r =  map(x -> Energy_Integral(x, α, T) / E0, Ds);
-    plot!(log.(Ds), log.(r), linewidth = 2,  color = colors[ii], lab = latexstring(L"$\alpha = $" * string(α)))
+    plot!(log.(Ds), log.(r),
+        linewidth = 2,
+        color = colors[ii],
+        lab = latexstring(L"$\alpha = $" * string(α))
+        )
 end
 
-plot!(log.(Ds), log.(r_1), linewidth = 2,color = colors[5], line = :dash, lab = :false)
-plot!(log.(Ds), log.(r_3), linewidth = 2,color = colors[5], line = :dash, lab = :false)
+plot!(
+    log.(Ds), log.(r_1),
+    linewidth = 2,
+    color = colors[5],
+    line = :dash,
+    lab = :false
+    )
+
+plot!(
+    log.(Ds), log.(r_3),
+    linewidth = 2,
+    color = colors[5],
+    line = :dash,
+    lab = :false
+    )
 
 savefig("F_I_T2e_2.pdf")

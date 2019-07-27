@@ -15,8 +15,8 @@ Ds = [1, 5, 10, 20];
 # Vertical line at T = 0.02
 xs = [0.02, 0.02]
 ys = [0, 1]
-## Plotting
 
+## Plotting
 pgfplots()
 plot(
     xaxis = (L"$T/\Omega_0$", font(14)),
@@ -29,12 +29,23 @@ plot(
 
 for ii = 1 : length(Ds)
     D = Ds[ii];
-    E0 = Energy_Integral(D, α, T_min)
-    println(ii)
+    # F_I for adjacent impurities
+    E0 = Energy_Integral(1, α, T)
+    # F_I divided by F_I at D = 1
     r =  map(x -> Energy_Integral(D, α, x) / E0, Ts);
-    plot!(Ts, (r), linewidth = 2,  color = colors[ii], lab = latexstring(L"$D = $" * string(D)))
+    plot!(Ts, r,
+        linewidth = 2,
+        color = colors[ii],
+        lab = latexstring(L"$D = $" * string(D))
+        )
 end
 
-plot!(xs, ys, linewidth = 2, color = colors[5], line = :dash, lab = :false)
+# Add the vertical line
+plot!(xs, ys,
+    linewidth = 2,
+    color = colors[5],
+    line = :dash,
+    lab = :false
+    )
 
 savefig("Finite_T_Energy_Ds.pdf")

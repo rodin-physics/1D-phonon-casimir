@@ -17,7 +17,7 @@ function Energy_Kernel(θ, D, α)
     return (log( 1 - num / den^2 ))
 end
 
-# F_I for two impurirties. The temperature parameter t = T / Ω
+# F_I for two impurities. The temperature parameter t = T / Ω
 function Energy_Integral(D, α, t)
     int_res = quadgk(θ -> cos(θ) * Energy_Kernel(θ, D, α) .* (0.5 + nB(sin(θ)/t)), 0, π / 2, rtol = ν)
     return imag(int_res[1] / π)

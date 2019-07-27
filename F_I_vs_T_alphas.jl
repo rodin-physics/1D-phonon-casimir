@@ -26,8 +26,12 @@ plot(
 
 for ii = 1 : length(αs)
     α = αs[ii];
-    r =  map(x -> Energy_Integral(1, α, x), Ts);
-    plot!(Ts, abs.(r), linewidth = 2,  color = colors[ii], lab = latexstring(L"$\alpha = $" * string(α)))
+    r =  map(x -> Energy_Integral(D, α, x), Ts);
+    plot!(Ts, abs.(r),
+        linewidth = 2,
+        color = colors[ii],
+        lab = latexstring(L"$\alpha = $" * string(α))
+        )
 end
 
 savefig("Finite_T_Energy_alphas.pdf")
