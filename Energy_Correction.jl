@@ -8,6 +8,7 @@ nPts = 3000;
 
 # αs: 1 for infinitely heavy impurity, 0 for the same mass as the chain atoms
 αs = [0.25, 0.75, 0.9, 0.99]
+D = 1;
 
 ## Plotting
 
@@ -25,7 +26,7 @@ plot(
 
 for ii = 1 : length(αs)
     α = αs[ii];
-    res = imag.(Energy_Kernel.(θs, 1, α)) ./ π .* cos.(θs)
+    res = imag.(Energy_Kernel.(θs, D, α)) ./ π .* cos.(θs)
     plot!(θs, res,
         linewidth = 2,
         color = colors[ii],
@@ -36,8 +37,8 @@ end
 # Plot the position of the isolated dimer mode as a vertical dashed line
 for ii = 1 : length(αs)
     α = αs[ii];
-    xs = sqrt((1 - α) / 2) * 2 / π .* [1, 1]
-    ys = [0, 1]
+    xs = asin(sqrt((1 - α) / 2)) .* [1, 1]
+    ys = [-1, 1]
     plot!(xs, ys,
         linewidth = 2,
         color = colors[ii],

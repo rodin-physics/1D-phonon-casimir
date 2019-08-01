@@ -19,7 +19,8 @@ end
 
 # F_I for two impurities. The temperature parameter t = T / Ω
 function Energy_Integral(D, α, t)
-    int_res = quadgk(θ -> cos(θ) * Energy_Kernel(θ, D, α) .* (0.5 + nB(sin(θ)/t)), 0, π / 2, rtol = ν)
+    f_int(θ) = cos(θ) * Energy_Kernel(θ, D, α) .* (0.5 + nB(sin(θ) / t))
+    int_res = quadgk(f_int, 0, π / 2, rtol = ν)
     return imag(int_res[1] / π)
 end
 
