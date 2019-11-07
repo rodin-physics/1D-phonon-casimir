@@ -14,6 +14,7 @@ struct Impurity
     M   :: Float64    # Impurity mass in units of the chain atom mass
 end
 
+# Function for producing an array of impurities
 function impurity_cluster(n :: Int, pos, M)
     imps = map(x -> Impurity(pos + x - 1, M), 1 : n)
     return imps

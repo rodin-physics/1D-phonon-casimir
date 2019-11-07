@@ -46,8 +46,5 @@ heatmap(Ds, ln_Ts, res,
         # legendfont = "Serif"
         )
 
-# savefig("F_I_2_Alpha.pdf")
-
-
 println("Saving")
 savefig("F_I_3_Imp.pdf")
