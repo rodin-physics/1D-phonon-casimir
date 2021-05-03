@@ -163,3 +163,8 @@ colors = [my_red
         , my_violet
         , my_orange
          ]
+
+
+E_halfway = Exact_Free_Energy(500, 4, 4, floor(Int, 500 / 2), 1e-1)
+     # F_I for adjacent impurities
+Exact_Free_Energy(500, 4, 4, 1, 1e-1) - E_halfway
