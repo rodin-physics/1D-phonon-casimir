@@ -17,15 +17,15 @@ E_I(s)
 
 # Displacement testing
 N = 2000;
-K = 0.01;
-T = 1e1;
-loc = 1;
+K = 0.5;
+T = 0.1;
+loc = 4;
 
 Imp_1 = Impurity(1, 5, 0)
-Imp_2 = Impurity(2, 1, 1)
-Imp_3 = Impurity(4, 4, 0)
+Imp_2 = Impurity(2, 1, 100)
+Imp_3 = Impurity(4, 2, 2)
 
-s = System([Imp_1, Imp_2], T, N, K)
+s = System([Imp_1, Imp_2, Imp_3], T, N, K)
 eig = exact_modes(s)
 nPts = 40000;
 numerical_displacement = map(x -> displacement([loc], eig, s)[1], 1:nPts)

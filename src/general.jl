@@ -3,6 +3,7 @@ using DelimitedFiles
 using LinearAlgebra
 using ProgressMeter
 using QuadGK
+using Statistics
 
 ## Parameters
 const ν = 1e-5;             # Relative tolerance for integration

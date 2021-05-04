@@ -67,10 +67,10 @@ function correlation_correction_zero_Matsubara(system, j, l)
     Π_j = map(x -> Π0_jl(K, x.pos - j), imps)
     Π_l = map(x -> Π0_jl(K, x.pos - l), imps)
 
-    left_prop = [Π_j; 0 * Π_j] |> permutedims
-    right_prop = [Π_l; 0 * Π_l]
-    # left_prop = [Π_j; zeros(nImps)] |> permutedims
-    # right_prop = [Π_l; zeros(nImps)]
+    # left_prop = [Π_j; 0 * Π_j] |> permutedims
+    # right_prop = [Π_l; 0 * Π_l]
+    left_prop = [Π_j; zeros(nImps)] |> permutedims
+    right_prop = [Π_l; zeros(nImps)]
 
     return (left_prop*prop*right_prop)[1]
 end
@@ -102,7 +102,7 @@ function correlation_correction(system, j, l)
                         j,
                         l,
                     )),
-                1:1:400,
+                1:1:1000,
             ) |>
             sum |>
             real
