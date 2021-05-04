@@ -24,9 +24,12 @@ function exact_modes(system)
     # Make the system periodic by coupling the first and the last mass
     U_Mat[1, N] = -1
     U_Mat[N, 1] = -1
+    # Take the reciprocal of the square root of the mass list
+    M_List = sqrt.(1 ./ M_List)
+    # Turn it into a matrix
     M_Mat = Diagonal(M_List)
-    M_mat_inv_sqrt = sqrt.(inv(M_Mat))
-    res = eigen(M_mat_inv_sqrt * U_Mat * M_mat_inv_sqrt)
+    # Multiply U_Mat by two copies of M_Mat and solve the eigenproblem
+    res = eigen(M_Mat * U_Mat * M_Mat)
     return res
 end
 
@@ -35,7 +38,7 @@ function exact_F(system)
     T = system.T
     eigs = exact_modes(system)
     Ω2 = eigs.values |> real
-    Ω = sqrt.(abs.(Ω2))  # in units √(k / μ).
+    Ω = sqrt.(abs.(Ω2))  # in units √(k / m).
     # The free energy for each mode consists of the vacuum portion Ω / 2 and
     # the finite-T portion T * log(1 - exp(-Ω / T))
     total_energy = T * sum(log.(1 .- exp.(-Ω ./ T))) + sum(Ω) / 2
@@ -104,6 +107,7 @@ function ξq(Ωq, ΩT)
     return σ * (randn() + im * randn())
 end
 
+# Function to determine the mass of the atom at coordinate "pos"
 function massof(pos, system)
     Imps = system.Imps
     imp_pos = map(x -> x.pos, Imps)
@@ -116,10 +120,11 @@ function massof(pos, system)
     end
 end
 
-function displacement(pos, eigs, T, system)
+# Function to simulate the displacement of atoms at list "pos"
+function displacement(pos, eigs, system)
     Ω2 = eigs.values |> real
     Ωs = sqrt.(abs.(Ω2))
-    ξs = map(x -> ξq(x, T), Ωs)
+    ξs = map(x -> ξq(x, system.T), Ωs)
     amp = √(2) .* real(ξs) ./ sqrt.(Ωs)
 
     res = map(

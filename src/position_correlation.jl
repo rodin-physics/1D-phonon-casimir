@@ -1,6 +1,6 @@
-include("mode_integrals.jl")
+include("general.jl")
 
-function pristine_correlation(K, D, T)
+function pristine_correlation(T, D, K)
 
     f_int(θ) = 1 ./ Ω(θ, K) .* (nB(Ω(θ, K) / T) + 1 / 2) * exp(1im * θ * D)
 
@@ -69,11 +69,12 @@ function correlation_correction_zero_Matsubara(system, j, l)
 
     left_prop = [Π_j; 0 * Π_j] |> permutedims
     right_prop = [Π_l; 0 * Π_l]
+    # left_prop = [Π_j; zeros(nImps)] |> permutedims
+    # right_prop = [Π_l; zeros(nImps)]
 
     return (left_prop*prop*right_prop)[1]
 end
 
-# E_I
 function correlation_correction(system, j, l)
     if system.T == 0
         res = quadgk(
@@ -101,12 +102,12 @@ function correlation_correction(system, j, l)
                         j,
                         l,
                     )),
-                1:1:10000,
+                1:1:400,
             ) |>
             sum |>
             real
         return (
-            res +
+            res -
             correlation_correction_zero_Matsubara(system, j, l) * system.T
         )
     end

@@ -33,18 +33,19 @@ struct System
     K::Float64              # Confining potential for the atoms in the chain
 end
 
-# Mode energies
+# Mode energies in units of √(k / m). The confining potential K is in units of k
 @inline function Ω(θ, K)
     return √(4 * sin(θ / 2)^2 + K)
 end
 
-# Propagator integrals
+# Π(z) for z ≠ 0
 @inline function Π_jl(z, K, D)
     f_int(θ) = 1 ./ (-1 .+ (Ω(θ, K) ./ z)^2) * exp(1im * θ * D)
     res = quadgk(f_int, 0, 2 * π, atol = α)[1]
     return (res / (2 * π * z^2))
 end
 
+# Π(0)
 @inline function Π0_jl(K, D)
     f_int(θ) = 1 ./ (Ω(θ, K)^2) * exp(1im * θ * D)
     res = quadgk(f_int, 0, 2 * π, atol = α)[1]
